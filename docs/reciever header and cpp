@@ -1,0 +1,40 @@
+RC receiver module reads the PWM signals from a receiver connected to the STM32 and receiver has 4 channels: steering, throttle, teleoperation and a deadman switch. The STM32 measures signal pulse width using interrupts and a timer. The measurements it gets are put inside arrays, then into the packet for transmission. 
+File areas:
+  firmware/include/recieverinput.h — data structure and function declarations
+  firmware/src/recieverinput.cpp — receiver initialization, PWM measurement, and packet updates
+  
+  Hardware and pins
+
+Receiver    pin(stm32)    intention
+CH1			pa0		steering
+CH2			PA1		throttle
+CH3			PA3		teloperation status
+CH4			PA4		deadman switch (scary name)...
+
+
+1000 endpoint1 1 
+1500 center 
+2000 endpoint 2 
+
+RC transmitter (follow downwards idk how to make a down arrow pretend)
+|
+|
+> RC receiver
+|
+| 
+> 4 channels
+| 
+| 
+>GPIO inputs
+|
+|
+>pulsewidth[4]
+|
+|
+>recieverupdatepacket
+|
+|
+>ControlPacket (9 bytes)
+|
+|
+>computah..
