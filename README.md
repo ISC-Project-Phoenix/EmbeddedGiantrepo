@@ -1,4 +1,4 @@
-# Project Phoenix — STM32 Firmware
+# Project Phoenix 
 
 This repository contains the STM32 firmware, host-side safety tests, and placeholders for ROS 2 integration.
 
