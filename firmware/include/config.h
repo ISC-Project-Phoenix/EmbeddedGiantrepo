@@ -1,4 +1,7 @@
 #pragma once
+// config declarations placeholder.
+
+#pragma once
 
 #include "stm32f3xx_hal.h"
 #include <stdint.h>

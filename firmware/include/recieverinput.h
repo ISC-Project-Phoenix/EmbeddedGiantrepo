@@ -1,19 +1,25 @@
-#ifndef __RECIEVER_H__
-#define __RECIEVER_H__
+#ifndef RECIEVERINPUT_H
+#define RECIEVERINPUT_H
 
-#include "stm32f3xx_hal.h"
+#include <stdint.h>
 
-/* This is the packet the ROS 2 node takes in per instance */
+
+// Packet sent to the ROS 2 node
 typedef struct __attribute__((packed)) {
-    uint8_t header;     //0xAA tells    
-    uint16_t steer;     // Channel 1 ~(1000 - 2000) 
-    uint16_t throttle;  // Channel 4 ~(1000 - 2000) 
-    uint16_t teleop;    // Channel 5 ~(1000 - 2000) 
-    uint16_t deadman_switch;   // Channel 6 ~(1000 - 2000) 
+    uint8_t header;
+    uint16_t steer;
+    uint16_t throttle;
+    uint16_t teleop;
+    uint16_t deadman_switch;
 } ControlPacket;
 
+// Initialize receiver
 void recieverInit(void);
+
+// Update receiver packet
 void recieverUpdatePacket(ControlPacket* p);
+
+// Check receiver connection
 uint8_t recieverIsConnected(void);
 
 #endif

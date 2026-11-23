@@ -12,7 +12,7 @@ void controllerUpdate(void);
 
 // Process receiver input
 void controllerProcessRC(
-    const ControlPacket* packet,
+    ControlPacket* packet,
     bool receiverConnected,
     bool communicationHealthy
 );
