@@ -1,4 +1,3 @@
-
 #include "uart.h"
 
 // USART2 handle

@@ -15,16 +15,8 @@ void controllerInit(void) {
     requestedThrottle = PWM_NEUTRAL;
 }
 
-void controllerProcessRC(
-    const ControlPacket* packet,
-    bool receiverConnected,
-    bool communicationHealthy
-) {
-    currentState = safetyEvaluate(
-        packet,
-        receiverConnected,
-        communicationHealthy
-    );
+void controllerProcessRC( const ControlPacket* packet, bool receiverConnected, bool communicationHealthy) {
+    currentState = safetyEvaluate( packet, receiverConnected, communicationHealthy);
 
     if (currentState != SafetyState::READY) {
         requestedSteering = PWM_NEUTRAL;
@@ -44,9 +36,7 @@ void controllerUpdate(void) {
     recieverUpdatePacket(&packet);
 
     bool receiverConnected = recieverIsConnected() != 0;
-    // The RC link is the only communication path wired up so far, so it
-    // doubles as the health signal. Replace with a real heartbeat
-    // (CAN/UART) once one exists.
+    
     bool communicationHealthy = receiverConnected;
 
     controllerProcessRC(
