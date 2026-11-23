@@ -1,17 +1,18 @@
 
 #include "controller.h"
+#include "config.h"
 #include "recieverinput.h"
 #include "safety.h"
 
 static SafetyState currentState = SafetyState::DISABLED;
 
-static uint16_t requestedSteering = 1500;
-static uint16_t requestedThrottle = 1500;
+static uint16_t requestedSteering = PWM_NEUTRAL;
+static uint16_t requestedThrottle = PWM_NEUTRAL;
 
 void controllerInit(void) {
     currentState = SafetyState::DISABLED;
-    requestedSteering = 1500;
-    requestedThrottle = 1500;
+    requestedSteering = PWM_NEUTRAL;
+    requestedThrottle = PWM_NEUTRAL;
 }
 
 void controllerProcessRC(
@@ -26,8 +27,8 @@ void controllerProcessRC(
     );
 
     if (currentState != SafetyState::READY) {
-        requestedSteering = 1500;
-        requestedThrottle = 1500;
+        requestedSteering = PWM_NEUTRAL;
+        requestedThrottle = PWM_NEUTRAL;
         return;
     }
 
@@ -43,7 +44,10 @@ void controllerUpdate(void) {
     recieverUpdatePacket(&packet);
 
     bool receiverConnected = recieverIsConnected() != 0;
-    bool communicationHealthy = false;
+    // The RC link is the only communication path wired up so far, so it
+    // doubles as the health signal. Replace with a real heartbeat
+    // (CAN/UART) once one exists.
+    bool communicationHealthy = receiverConnected;
 
     controllerProcessRC(
         &packet,

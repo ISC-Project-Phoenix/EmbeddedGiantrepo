@@ -1,35 +1,15 @@
 #pragma once
-// config declarations placeholder.
 
-#pragma once
+// Shared receiver / safety constants.
+// All pulse widths are in microseconds (standard RC servo PWM).
 
-#include "stm32f3xx_hal.h"
-#include <stdint.h>
+#define PWM_MIN        1000
+#define PWM_NEUTRAL    1500
+#define PWM_MAX        2000
 
-// CAN message IDs from Project Phoenix
-#define CAN_SET_ANGLE  0x004
-#define CAN_SET_SPEED  0x006
-#define CAN_ENCODER    0x007
+// Switches must be at or above this width to count as "on"
+#define DEADMAN_MIN    1700
+#define TELEOP_MIN     1700
 
-// CAN communication speed
-#define CAN_BITRATE 500000
-
-// Initialize the CAN peripheral
-HAL_StatusTypeDef canInit(void);
-
-// Send a CAN message
-HAL_StatusTypeDef canSend(
-    uint32_t id,
-    const uint8_t* data,
-    uint8_t length
-);
-
-// Check and process incoming messages
-void canProcessReceived(void);
-
-// Handle received CAN messages
-void canHandleMessage(
-    uint32_t id,
-    const uint8_t* data,
-    uint8_t length
-);
+// Receiver counts as disconnected if any channel is older than this (ms)
+#define SIGNAL_TIMEOUT_MS 100

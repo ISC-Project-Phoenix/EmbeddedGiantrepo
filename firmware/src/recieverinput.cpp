@@ -1,5 +1,6 @@
 
 #include "recieverinput.h"
+#include "config.h"
 #include "stm32f3xx_hal.h"
 #include <stdint.h>
 
@@ -10,10 +11,9 @@
 #define TELEOP 2
 #define DEADMAN 3
 
-#define SIGNAL_TIMEOUT 100
-#define NEUTRAL_PWM 1500
+#define SIGNAL_TIMEOUT SIGNAL_TIMEOUT_MS
+#define NEUTRAL_PWM PWM_NEUTRAL
 #define FAILPWM 0
-#define DEADMAN_MIN 1700
 
 static TIM_HandleTypeDef receiverTimer;
 

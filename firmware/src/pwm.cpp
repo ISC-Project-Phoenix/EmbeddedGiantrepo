@@ -1,6 +1,8 @@
 #include "pwm.h"
 
 HAL_StatusTypeDef pwmInit(void) {
+    // TODO: configure the output timer(s) and pins once the steering and
+    // throttle outputs are chosen. Returns an error until then.
     return HAL_ERROR;
 }
 
@@ -12,7 +14,7 @@ HAL_StatusTypeDef pwmStart(
         return HAL_ERROR;
     }
 
-    return HAL_ERROR;
+    return HAL_TIM_PWM_Start(timer, channel);
 }
 
 HAL_StatusTypeDef pwmStop(
@@ -39,5 +41,6 @@ HAL_StatusTypeDef pwmSetCompare(
         return HAL_ERROR;
     }
 
-    return HAL_ERROR;
+    __HAL_TIM_SET_COMPARE(timer, channel, compareValue);
+    return HAL_OK;
 }

@@ -1,11 +1,5 @@
 #include "safety.h"
-
-
-#define DEADMAN_MIN 1700
-#define TELEOP_MIN 1700
-
-#define PWM_MIN 1000
-#define PWM_MAX 2000
+#include "config.h"
 
 
 static bool validPWM(uint16_t value) {
