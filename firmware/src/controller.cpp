@@ -1,11 +1,17 @@
+
 #include "controller.h"
 #include "recieverinput.h"
 #include "safety.h"
 
 static SafetyState currentState = SafetyState::DISABLED;
 
+static uint16_t requestedSteering = 1500;
+static uint16_t requestedThrottle = 1500;
+
 void controllerInit(void) {
     currentState = SafetyState::DISABLED;
+    requestedSteering = 1500;
+    requestedThrottle = 1500;
 }
 
 void controllerProcessRC(
@@ -13,33 +19,37 @@ void controllerProcessRC(
     bool receiverConnected,
     bool communicationHealthy
 ) {
-    // Evaluate safety conditions
     currentState = safetyEvaluate(
         packet,
         receiverConnected,
         communicationHealthy
     );
 
-    // TODO: Handle FAULT state
+    if (currentState != SafetyState::READY) {
+        requestedSteering = 1500;
+        requestedThrottle = 1500;
+        return;
+    }
 
-    // TODO: Handle DISABLED state
-
-    // TODO: Handle READY state
-    // Only prepare commands here for now.
-    // Do not activate throttle or steering yet.
+    if (packet != nullptr) {
+        requestedSteering = packet->steer;
+        requestedThrottle = packet->throttle;
+    }
 }
 
 void controllerUpdate(void) {
-    // TODO: Read the latest receiver packet
+    ControlPacket packet{};
 
-    // TODO: Check receiver signal freshness
+    recieverUpdatePacket(&packet);
 
-    // TODO: Check communication timeout
+    bool receiverConnected = recieverIsConnected() != 0;
+    bool communicationHealthy = false;
 
-    // TODO: Call controllerProcessRC()
-
-    // TODO: Update steering and throttle
-    // only after safety checks are implemented
+    controllerProcessRC(
+        &packet,
+        receiverConnected,
+        communicationHealthy
+    );
 }
 
 SafetyState controllerGetState(void) {

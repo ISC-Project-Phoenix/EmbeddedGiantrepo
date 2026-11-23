@@ -1,3 +1,14 @@
-// STM32 firmware entry point (Arduino framework).
-// TODO: Initialize modules and implement the control loop.
-#include "recieverinput.h"
+
+#include "stm32f3xx_hal.h"
+#include "controller.h"
+
+int main(void) {
+    HAL_Init();
+
+    controllerInit();
+
+    while (1) {
+        controllerUpdate();
+        HAL_Delay(20);
+    }
+}
